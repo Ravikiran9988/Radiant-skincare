@@ -4,20 +4,20 @@ const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null); // Now set to null instead of ""
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError(null); // Reset error only when user starts typing
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
       console.log(isLogin ? "Logging in with" : "Signing up with", formData);
-      // TODO: Replace with real API call (fetch/axios)
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API delay
     } catch (err) {
       setError("Authentication failed. Try again.");
