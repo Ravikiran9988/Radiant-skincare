@@ -6,52 +6,57 @@ const AnalysisForm = () => {
 
   const handleTextSubmit = (e) => {
     e.preventDefault();
-    alert(`Analyzing: ${skinDescription}`);
+    console.log("Submitting skin description:", skinDescription);
+    // TODO: Send data to backend API
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      console.log("Image selected:", file.name);
+    }
   };
 
   const handleImageSubmit = (e) => {
     e.preventDefault();
-    alert("Image uploaded for analysis!");
+    if (!image) {
+      alert("Please upload an image.");
+      return;
+    }
+    console.log("Uploading image:", image.name);
+    // TODO: Upload image to backend API
   };
 
   return (
     <div className="container mx-auto p-8">
-      <h2 className="text-3xl font-bold text-center text-pink-500 mb-6">Skin Analysis</h2>
+      <h2 className="text-3xl font-bold text-center text-pink-500 mb-6">
+        Skin Analysis
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
         {/* Text Analysis */}
-        <div className="bg-white p-6 shadow-lg rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">Analyze via Text</h3>
-          <p className="text-gray-600 mb-4">Describe your skin condition for AI-based skincare recommendations.</p>
-          <form onSubmit={handleTextSubmit}>
-            <textarea
-              className="w-full p-3 border rounded-lg"
-              placeholder="Enter details about your skin..."
-              value={skinDescription}
-              onChange={(e) => setSkinDescription(e.target.value)}
-            ></textarea>
-            <button type="submit" className="mt-4 w-full bg-pink-500 text-white py-2 rounded-lg">
-              Analyze
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleTextSubmit} className="bg-white p-6 rounded shadow">
+          <label className="block text-gray-700">Describe your skin concerns:</label>
+          <textarea
+            value={skinDescription}
+            onChange={(e) => setSkinDescription(e.target.value)}
+            className="w-full p-2 border rounded mt-2"
+            required
+          />
+          <button type="submit" className="mt-4 bg-pink-500 text-white px-4 py-2 rounded">
+            Analyze
+          </button>
+        </form>
 
         {/* Image Analysis */}
-        <div className="bg-white p-6 shadow-lg rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">Analyze via Image</h3>
-          <p className="text-gray-600 mb-4">Upload a photo for AI-based skin analysis.</p>
-          <form onSubmit={handleImageSubmit}>
-            <input
-              type="file"
-              accept="image/*"
-              className="w-full p-2 border rounded-lg"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-            <button type="submit" className="mt-4 w-full bg-pink-500 text-white py-2 rounded-lg">
-              Upload & Analyze
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleImageSubmit} className="bg-white p-6 rounded shadow">
+          <label className="block text-gray-700">Upload a skin image:</label>
+          <input type="file" accept="image/*" onChange={handleImageUpload} className="mt-2" required />
+          {image && <p className="mt-2 text-sm text-gray-500">Selected: {image.name}</p>}
+          <button type="submit" className="mt-4 bg-pink-500 text-white px-4 py-2 rounded">
+            Upload & Analyze
+          </button>
+        </form>
       </div>
     </div>
   );
