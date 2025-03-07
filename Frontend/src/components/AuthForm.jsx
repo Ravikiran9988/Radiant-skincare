@@ -3,15 +3,27 @@ import React, { useState } from "react";
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(isLogin ? "Logging in with" : "Signing up with", formData);
-    // TODO: Send formData to backend API for authentication
+    setLoading(true);
+    setError("");
+
+    try {
+      console.log(isLogin ? "Logging in with" : "Signing up with", formData);
+      // TODO: Replace with real API call (fetch/axios)
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API delay
+    } catch (err) {
+      setError("Authentication failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,6 +32,7 @@ const AuthForm = () => {
         <h2 className="text-2xl font-bold text-gray-800">
           {isLogin ? "Login to Your Account" : "Create an Account"}
         </h2>
+        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
           <input
             type="email"
@@ -39,8 +52,8 @@ const AuthForm = () => {
             className="w-full p-2 border rounded mt-2"
             required
           />
-          <button type="submit" className="mt-4 bg-pink-500 text-white px-4 py-2 rounded w-full">
-            {isLogin ? "Login" : "Sign Up"}
+          <button type="submit" className="mt-4 bg-pink-500 text-white px-4 py-2 rounded w-full" disabled={loading}>
+            {loading ? (isLogin ? "Logging in..." : "Signing up...") : isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
         <p className="mt-2 text-gray-600">
