@@ -1,22 +1,20 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Analysis from "./pages/Analysis";
-import Login from "./pages/Login";import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import AIConsultation from "./components/AIConsultation";
-import Footer from "./components/Footer";
-import "./styles/styles.css"; // Import global styles
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Dashboard from "./pages/Dashboard";
+import SkinAnalysis from "./pages/SkinAnalysis";
+import AuthForm from "./pages/AuthForm";
 
-
-
-function App() {
+const App = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
-        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/skin-analysis" element={<SkinAnalysis />} />
+        <Route path="/login" element={<AuthForm />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
