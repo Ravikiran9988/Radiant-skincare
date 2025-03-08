@@ -1,3 +1,4 @@
+import React from 'react';
 const Hero = () => {
   return (
     <header className="text-center py-24 bg-gradient-to-r from-pink-100 to-pink-200">
